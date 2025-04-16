@@ -257,7 +257,7 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
 
 ## License
 
-Dự án này được cấp phép theo [MIT License](LICENSE).
+Dự án này được cấp phép thực hiện theo [Học phần CT239_NLCS ngành KTPM HK2 2024-2025 ].
 
 ---
 
