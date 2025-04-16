@@ -7,7 +7,8 @@
     <title>Graph Algorithms Shortest Path</title>
     <link rel="icon" href="assets/icon.jpg" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
-    <script src="node_modules/d3/dist/d3.min.js"></script>
+    <!-- <script src="/node_modules/d3/dist/d3.min.js"></script> -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
 <body>
@@ -54,7 +55,7 @@
             </div>
 
             <button id="run-algorithm" class="btn btn-success">Chạy Thuật Toán</button>
-            <button id="clear-path" class="btn">Đồ Thị Mẫu</button>
+            <button id="clear-path" class="btn btn-primary">Đồ Thị Mẫu</button>
             <button id="clear-graph" class="btn btn-danger">Xóa Đồ Thị</button>
 
             <div class="input-group" style="margin-top: 16px;">
@@ -89,7 +90,7 @@
             </div>
         </div>
     </div>
-    <script src="renderer.js"></script>
+    <script type="module" src="renderer.js"></script>
 </body>
 
 </html>
