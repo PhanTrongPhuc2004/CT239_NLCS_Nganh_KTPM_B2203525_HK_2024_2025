@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Algorithms Shortest Path</title>
+    <link rel="icon" href="assets/icon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <script src="node_modules/d3/dist/d3.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>ỨNG DỤNG VẼ VÀ XỬ LÝ ĐỒ THỊ ÁP DỤNG GIẢI THUẬT TÌM ĐƯỜNG ĐI NGẮN NHẤT</h1>
+    </header>
+
+    <div class="container">
+        <div class="sidebar">
+
+            <div class="input-group">
+                <label>Chế Độ:</label>
+                <select id="mode-select">
+                    <option value="add-node">Thêm đỉnh</option>
+                    <option value="add-edge">Thêm cung</option>
+                    <option value="delete">Xóa đỉnh/cung</option>
+                    <option value="move">Di chuyển</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Thuật Toán:</label>
+                <select id="algorithm-select">
+                    <option value="dijkstra">Dijkstra</option>
+                    <option value="bellman-ford">Bellman-Ford</option>
+                    <option value="a-star">A* Search</option>
+                    <option value="mst-kruskal">MST Kruskal</option>
+                    <option value="mst-prim">MST Prim</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Đỉnh Đầu:</label>
+                <select id="start-node-select">
+                    <option value="">Chọn đỉnh đầu</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Đỉnh Cuối:</label>
+                <select id="end-node-select">
+                    <option value="">Chọn đỉnh cuối</option>
+                </select>
+            </div>
+
+            <button id="run-algorithm" class="btn btn-success">Chạy Thuật Toán</button>
+            <button id="clear-path" class="btn">Đồ Thị Mẫu</button>
+            <button id="clear-graph" class="btn btn-danger">Xóa Đồ Thị</button>
+
+            <div class="input-group" style="margin-top: 16px;">
+                <label>Tùy Chọn:</label>
+                <select id="mode-select">
+                    <option value="add-node">Xuất file</option>
+                    <option value="add-edge">Nhập file</option>
+                    <option value="delete">Xuất ảnh</option>
+                    <option value="move">Xem cấu trúc dữ liệu</option>
+                </select>
+            </div>
+            <!-- <button id="load-example-1" class="btn">Simple Graph</button>
+            <button id="load-example-2" class="btn">Complex Graph</button> -->
+        </div>
+
+        <div class="main">
+            <div class="message">
+                <h3>Gợi Ý:</h3>
+                <div id="message-content">
+                    Hướng dẫn sử dụng: ...
+                </div>
+            </div>
+            <div class="canvas-container">
+                <div id="graph-canvas"></div>
+            </div>
+
+            <div class="results">
+                <h3>Kết Quả:</h3>
+                <div id="results-content">
+                    Đường đi ngắn nhất: ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+
+</html>

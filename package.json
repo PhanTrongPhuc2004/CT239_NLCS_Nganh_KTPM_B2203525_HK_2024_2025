@@ -1,0 +1,30 @@
+{
+  "name": "graph_algorithms_shortest_path",
+  "version": "1.0.0",
+  "main": "main.js",
+  "description": "NLCS_nganh_KTPM_B2203525_HK_2024_2025",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "author": "PhanTrongPhuc_B2203525",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "d3": "^7.9.0",
+    "electron-squirrel-startup": "^1.0.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.8.0",
+    "@electron-forge/maker-deb": "^7.8.0",
+    "@electron-forge/maker-rpm": "^7.8.0",
+    "@electron-forge/maker-squirrel": "^7.8.0",
+    "@electron-forge/maker-zip": "^7.8.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.8.0",
+    "@electron-forge/plugin-fuses": "^7.8.0",
+    "@electron-forge/plugin-webpack": "^7.8.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^35.1.5"
+  }
+}
