@@ -206,12 +206,19 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
    npm install
    ```
 
-4. **Chạy ứng dụng:**
+4. **Chạy ứng dụng web:**
    Dự án sử dụng Electron và Electron Forge, vì vậy chạy:
    ```bash
    npm start
    ```
    Lệnh này sẽ khởi chạy Electron, mở cửa sổ chính và tải giao diện đồ họa.
+
+5. **Kết xuất ứng dụng desktop:**
+   Dự án sử dụng Electron và Electron Forge, vì vậy chạy:
+   ```bash
+   npm make
+   ```
+   Lệnh này sẽ khởi chạy Electron để kết xuất ra ứng dụng desktop.
 
 ---
 
