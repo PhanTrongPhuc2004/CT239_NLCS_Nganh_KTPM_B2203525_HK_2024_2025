@@ -2,7 +2,7 @@ class Edge {
     constructor(u, v, w) {
         this.u = u; // ID của đỉnh đầu
         this.v = v; // ID của đỉnh cuối
-        this.w = w; // Trọng số (có thể âm)
+        this.w = w || 0; // Trọng số (có thể âm)
     }
 
     // Phương thức kiểm tra xem cạnh có chứa đỉnh với ID cho trước không

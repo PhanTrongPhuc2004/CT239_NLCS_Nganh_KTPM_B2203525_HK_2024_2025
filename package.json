@@ -5,12 +5,14 @@
   "description": "NLCS_nganh_KTPM_B2203525_HK_2024_2025",
   "scripts": {
     "start": "nodemon --exec electron . --watch src --ext js,html,css",
+    "start2": "electron main.js",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
   "author": "PhanTrongPhuc_B2203525",
   "license": "ISC",
   "dependencies": {
+    "@electron/remote": "^2.1.2",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "d3": "^7.9.0",
     "electron-squirrel-startup": "^1.0.1"

@@ -1,14 +1,12 @@
 const d3 = require('d3');
 
 // Đồ thị trực quan hóa
-// Đồ thị này sử dụng D3.js để vẽ đồ thị với các đỉnh và cạnh
-// Nó cũng hỗ trợ làm nổi bật các đỉnh và cạnh trong quá trình tìm kiếm đường đi ngắn nhất
-// và có thể cập nhật vị trí của các đỉnh khi người dùng kéo thả chúng
 class GraphVisualizer {
-    constructor(svgId, width, height) {
+    constructor(svgId, width, height, graph) {
         this.width = width;
         this.height = height;
-        this.svg = d3.select(svgId)
+        this.graph = graph; // Lưu tham chiếu đến graph để cập nhật vị trí
+        this.svg = d3.select(svgId).append("svg")
             .attr('width', '100%')
             .attr('height', '100%')
             .attr('viewBox', `0 0 ${width} ${height}`);
@@ -19,20 +17,28 @@ class GraphVisualizer {
         this.weights = this.svg.append('g').attr('class', 'weights');
         // Nhóm cho các đỉnh
         this.nodes = this.svg.append('g').attr('class', 'nodes');
-
-        this.graph = null;
+        // Nhóm cho các nhãn
+        this.labels = this.svg.append('g').attr('class', 'labels');
     }
 
     // Cập nhật và vẽ đồ thị
     updateGraph(graph) {
         this.graph = graph;
+
+        // Xóa toàn bộ nội dung SVG trước khi vẽ lại
+        this.nodes.selectAll('*').remove();  // Xóa tất cả đỉnh
+        this.edges.selectAll('*').remove(); // Xóa tất cả cạnh
+        this.weights.selectAll('*').remove(); // Xóa tất cả trọng số
+        this.labels.selectAll('*').remove(); // Xóa tất cả nhãn
+
         const vertices = graph.getVertices();
         const edges = graph.getEdges();
 
         // Dữ liệu cho đỉnh
-        const nodeData = vertices.map(vertex => {
-            const pos = graph.getVertexPosition(vertex);
-            return { id: vertex, x: pos.x, y: pos.y };
+        const nodeData = vertices.map(id => {
+            const pos = graph.getVertexPosition(id);
+            const label = graph.getVertexLabel(id);
+            return { id, label, x: pos.x, y: pos.y };
         });
 
         // Dữ liệu cho cạnh
@@ -54,51 +60,91 @@ class GraphVisualizer {
         const edgeSelection = this.edges.selectAll('.edge')
             .data(edgeData, d => `${d.source}-${d.target}`);
 
-        edgeSelection.exit().remove();
-
         edgeSelection.enter()
             .append('line')
             .attr('class', 'edge')
+            .attr('stroke', 'black')
+            .attr('stroke-width', 3)
             .merge(edgeSelection)
             .attr('x1', d => d.x1)
             .attr('y1', d => d.y1)
             .attr('x2', d => d.x2)
             .attr('y2', d => d.y2);
 
+        edgeSelection.exit().remove();
+
         // Vẽ trọng số cạnh
         const weightSelection = this.weights.selectAll('.edge-weight')
             .data(edgeData, d => `${d.source}-${d.target}`);
 
-        weightSelection.exit().remove();
-
         weightSelection.enter()
             .append('text')
             .attr('class', 'edge-weight')
+            .attr('fill', 'black')
+            .attr('font-size', '20px')
+            .attr('font-weight', 'bold')
             .merge(weightSelection)
             .attr('x', d => (d.x1 + d.x2) / 2)
             .attr('y', d => (d.y1 + d.y2) / 2 - 5)
             .text(d => d.weight);
 
+        weightSelection.exit().remove();
+
         // Vẽ đỉnh
         const nodeSelection = this.nodes.selectAll('.node')
             .data(nodeData, d => d.id);
 
+        nodeSelection.enter()
+            .append('circle')
+            .attr('class', 'node')
+            .attr('r', 20)
+            .attr('fill', 'white')
+            .attr('stroke', 'black')
+            .attr('stroke-width', 3)
+            .call(d3.drag()
+                .on('drag', (event, d) => {
+                    d.x = Math.max(20, Math.min(this.width - 20, event.x));
+                    d.y = Math.max(20, Math.min(this.height - 20, event.y));
+                    this.graph.setVertexPosition(d.id, d.x, d.y);
+                    d3.select(event.subject).attr('cx', d.x).attr('cy', d.y);
+                    this.labels.selectAll('.label')
+                        .filter(label => label.id === d.id)
+                        .attr('x', d.x)
+                        .attr('y', d.y);
+                    this.edges.selectAll('.edge')
+                        .filter(edge => edge.source === d.id || edge.target === d.id)
+                        .attr('x1', edge => edge.source === d.id ? d.x : this.graph.getVertexPosition(edge.source).x)
+                        .attr('y1', edge => edge.source === d.id ? d.y : this.graph.getVertexPosition(edge.source).y)
+                        .attr('x2', edge => edge.target === d.id ? d.x : this.graph.getVertexPosition(edge.target).x)
+                        .attr('y2', edge => edge.target === d.id ? d.y : this.graph.getVertexPosition(edge.target).y);
+                    this.weights.selectAll('.edge-weight')
+                        .filter(weight => weight.source === d.id || weight.target === d.id)
+                        .attr('x', weight => (this.graph.getVertexPosition(weight.source).x + this.graph.getVertexPosition(weight.target).x) / 2)
+                        .attr('y', weight => (this.graph.getVertexPosition(weight.source).y + this.graph.getVertexPosition(weight.target).y) / 2 - 5);
+                }))
+            .merge(nodeSelection)
+            .attr('cx', d => d.x)
+            .attr('cy', d => d.y);
+
         nodeSelection.exit().remove();
 
-        const nodeEnter = nodeSelection.enter()
-            .append('g')
-            .attr('class', 'node');
+        // Vẽ nhãn
+        const labelSelection = this.labels.selectAll('.label')
+            .data(nodeData, d => d.id);
 
-        nodeEnter.append('circle')
-            .attr('r', 20);
-
-        nodeEnter.append('text')
-            .attr('dy', '.35em')
+        labelSelection.enter()
+            .append('text')
+            .attr('class', 'label')
             .attr('text-anchor', 'middle')
-            .text(d => d.id);
+            .attr('dominant-baseline', 'central')
+            .merge(labelSelection)
+            .attr('x', d => d.x)
+            .attr('y', d => d.y)
+            .text(d => d.label);
 
-        nodeSelection.merge(nodeEnter)
-            .attr('transform', d => `translate(${d.x}, ${d.y})`);
+        labelSelection.exit().remove();
+
+        return { nodeData, edgeData };
     }
 
     // Làm nổi bật đường đi ngắn nhất
@@ -123,19 +169,19 @@ class GraphVisualizer {
         this.nodes.selectAll('.node')
             .filter(d => path.includes(d.id))
             .classed('highlighted', true);
-    }
 
-    // Làm nổi bật các đỉnh đã thăm
-    highlightVisited(vertices) {
-        this.nodes.selectAll('.node')
-            .filter(d => vertices.includes(d.id))
-            .classed('highlighted', true);
+        // Làm nổi bật nhãn của các đỉnh trên đường đi
+        this.labels.selectAll('.label')
+            .filter(d => path.includes(d.id))
+            .classed('highlighted-label', true);
     }
 
     // Xóa các highlight
     clearHighlights() {
         this.edges.selectAll('.edge').classed('path-edge', false);
         this.nodes.selectAll('.node').classed('highlighted', false);
+        this.labels.selectAll('.label').classed('highlighted-label', false);
     }
 }
+
 module.exports = GraphVisualizer;

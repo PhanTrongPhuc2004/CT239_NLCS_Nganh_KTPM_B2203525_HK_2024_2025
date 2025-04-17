@@ -4,8 +4,11 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh;
     background-color: #f0f4f8;
+    /* align-items: center; */
+    width: 98vw;
+    min-width: 1000px !important;
+    box-sizing: border-box;
 }
 
 header {
@@ -14,6 +17,9 @@ header {
     padding: 1rem;
     border-radius: 5px;
     text-align: center;
+    /* height: 10vh; */
+    /* min-height: 200px; */
+
 }
 
 .container {
@@ -22,11 +28,14 @@ header {
 }
 
 .sidebar {
-    width: 250px;
+    width: 10vw;
+    height: 100vh;
+    min-height: 570px;
+    min-width: 200px;
     background-color: #34495e;
     color: white;
     padding: 1rem;
-    margin: 16px 0px 0px 0px;
+    margin: 16px 0px 10px 0px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -34,6 +43,7 @@ header {
 
 .main {
     flex: 1;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     padding: 1rem 0px 1rem 1rem;
@@ -44,34 +54,54 @@ header {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 5px;
-    margin-bottom: 1rem;
     margin-top: 1rem;
     overflow: hidden;
     position: relative;
+    height: 70vh;
+    min-height: 385px;
 }
 
 #graph-canvas {
     width: 100%;
-    height: 80vh;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.main-header {
+    display: flex;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    gap: 1rem;
 }
 
 .results {
-    height: 200px;
-    /* Tăng chiều cao để hiển thị nhiều nội dung hơn */
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 0% 1rem 0%;
-    overflow-y: auto;
-}
-
-.message {
+    flex: 1;
     height: 20vh;
+    min-height: 200px;
+    min-width: 250px;
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 0px 1rem 0px;
     overflow-y: auto;
+    /* color: #ffc107; */
+    /* text-align: center; */
+    
+}
+
+.message {
+    flex: 1;
+    height: 20vh;
+    min-height: 200px;
+    min-width: 250px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 0px 1rem 0px;
+    overflow-y: auto;
+    color: #27ae60;
+    /* text-align: center; */
+    font-size: 18px;
 }
 
 .btn {
@@ -111,6 +141,14 @@ header {
 
 .btn-primary:hover {
     background-color: #2980b9;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
 }
 
 .input-group {
@@ -168,4 +206,58 @@ select {
 .path-edge {
     background-color: #e74c3c !important;
     height: 3px !important;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.modal-content input {
+    margin: 10px 0;
+    padding: 5px;
+    width: 80%;
+}
+
+.modal-content button {
+    margin: 5px;
+    padding: 5px 10px;
+}
+
+/* Định dạng đỉnh trên đường đi */
+.highlighted {
+    fill: red;
+    /* Màu nền đỏ */
+    stroke: yellow;
+    /* Viền vàng */
+    stroke-width: 3;
+}
+
+/* Định dạng label của đỉnh trên đường đi */
+.highlighted-label {
+    fill: white;
+    /* Label trắng */
+}
+
+/* Định dạng cạnh trên đường đi */
+.path-edge {
+    stroke: yellow;
+    /* Cạnh vàng */
+    stroke-width: 3;
 }
