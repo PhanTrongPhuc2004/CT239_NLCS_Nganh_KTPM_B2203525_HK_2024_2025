@@ -4,8 +4,7 @@
   "main": "main.js",
   "description": "NLCS_nganh_KTPM_B2203525_HK_2024_2025",
   "scripts": {
-    "start": "nodemon --exec electron . --watch src --ext js,html,css",
-    "start2": "electron main.js",
+    "start": "electron main.js",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
@@ -27,7 +26,6 @@
     "@electron-forge/plugin-fuses": "^7.8.0",
     "@electron-forge/plugin-webpack": "^7.8.0",
     "@electron/fuses": "^1.8.0",
-    "electron": "^35.1.5",
-    "nodemon": "^3.1.9"
+    "electron": "^35.1.5"
   }
 }

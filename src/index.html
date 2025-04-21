@@ -22,8 +22,9 @@
                 <select id="mode-select">
                     <option value="default" selected hidden>Chọn chế độ</option>
                     <option value="add-node">Thêm đỉnh</option>
-                    <option value="add-edge">Thêm cung</option>
-                    <option value="delete">Xóa đỉnh/cung</option>
+                    <option value="add-edge">Thêm cạnh</option>
+                    <option value="edit-edge">Chỉnh sửa đỉnh/cạnh</option>
+                    <option value="delete">Xóa đỉnh/cạnh</option>
                     <option value="move">Di chuyển</option>
                 </select>
             </div>
@@ -68,7 +69,7 @@
         <div class="main">
             <div class="main-header">
                 <div class="message">
-                    <h3 >Hướng dẫn:</h3>
+                    <h3>Hướng dẫn:</h3>
                     <div id="message-content">
                         <p id="contentMessage"></p>
                     </div>
@@ -87,14 +88,26 @@
             </div>
         </div>
     </div>
-    <!-- Modal để nhập trọng số -->
+    <!-- Modal để nhập/cập nhật trọng số -->
     <div id="weightModal" class="modal">
         <div class="modal-content">
             <h3>Nhập trọng số cho cạnh</h3>
             <input type="number" id="weightInput" placeholder="Nhập trọng số" value="1">
             <div>
-                <button id="weightOk">OK</button>
                 <button id="weightCancel">Cancel</button>
+                <button id="weightNoWeight">Không trọng số</button>
+                <button id="weightOk">OK</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal để chỉnh sửa nhãn đỉnh -->
+    <div id="labelModal" class="modal">
+        <div class="modal-content">
+            <h3>Chỉnh sửa nhãn đỉnh</h3>
+            <input type="text" id="labelInput" placeholder="Nhập nhãn mới">
+            <div>
+                <button id="labelOk">OK</button>
+                <button id="labelCancel">Cancel</button>
             </div>
         </div>
     </div>

@@ -86,7 +86,7 @@ class GraphVisualizer {
             .merge(weightSelection)
             .attr('x', d => (d.x1 + d.x2) / 2)
             .attr('y', d => (d.y1 + d.y2) / 2 - 5)
-            .text(d => d.weight);
+            .text(d => d.weight === 0 ? '' : d.weight); // Không hiển thị trọng số bằng 0
 
         weightSelection.exit().remove();
 
@@ -106,7 +106,7 @@ class GraphVisualizer {
                     d.x = Math.max(20, Math.min(this.width - 20, event.x));
                     d.y = Math.max(20, Math.min(this.height - 20, event.y));
                     this.graph.setVertexPosition(d.id, d.x, d.y);
-                    d3.select(event.subject).attr('cx', d.x).attr('cy', d.y);
+                    d3.select(this).attr('cx', d.x).attr('cy', d.y); // Sử dụng `this` thay vì `event.subject`
                     this.labels.selectAll('.label')
                         .filter(label => label.id === d.id)
                         .attr('x', d.x)

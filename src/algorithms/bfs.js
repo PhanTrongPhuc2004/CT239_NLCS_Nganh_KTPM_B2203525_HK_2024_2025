@@ -1,4 +1,3 @@
-// BFS (Breadth-First Search) algorithm implementation
 const Queue = require('../dataStructures/queue.js');
 
 function bfs(graph, start) {

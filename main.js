@@ -18,16 +18,19 @@ const createWindow = () => {
         height: 800,
         center: true,
         webPreferences: {
-            nodeIntegration: true, // Bật nodeIntegration để renderer process truy cập Node.js
-            contextIsolation: false, // Tắt contextIsolation
-            enableRemoteModule: true, // Bật enableRemoteModule để renderer process sử dụng remote
+            // Bật nodeIntegration để sử dụng các module của Node.js trong renderer process
+            nodeIntegration: true, 
+            // Tắt contextIsolation để sử dụng nodeIntegration
+            contextIsolation: false, 
+            // Bật enableRemoteModule để sử dụng @electron/remote
+            enableRemoteModule: true, 
         },
     });
 
     // Bật remote cho cửa sổ này
     remoteMain.enable(mainWindow.webContents);
 
-    // Load the index.html of the app
+    // tải trang index.html vào cửa sổ
     mainWindow.loadURL(
         url.format({
             pathname: path.join(__dirname, 'src', 'index.html'),
@@ -36,20 +39,21 @@ const createWindow = () => {
         })
     );
 
-    // Open the DevTools (optional)
+    // mở devTools nếu cần thiết
     mainWindow.webContents.openDevTools();
 };
 
-// This method will be called when Electron has finished initialization
+// Gọi hàm createWindow khi ứng dụng đã sẵn sàng
 app.on('ready', createWindow);
 
-// Quit when all windows are closed, except on macOS
+// Thoát ứng dụng khi tất cả cửa sổ đã đóng
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
     }
 });
 
+// Tạo cửa sổ mới khi ứng dụng được kích hoạt
 app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow();

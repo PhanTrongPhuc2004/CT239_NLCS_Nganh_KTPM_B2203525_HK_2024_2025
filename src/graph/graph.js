@@ -41,6 +41,13 @@ class Graph {
         return true;
     }
 
+    setEdgeWeight(u, v, w) {
+        const edge = this.edges.find(e => (e.u === u && e.v === v) || (e.u === v && e.v === u));
+        if (!edge) return false;
+        edge.setWeight(w);
+        return true;
+    }
+
     hasEdge(u, v) {
         return this.edges.some(e => (e.u === u && e.v === v) || (e.u === v && e.v === u));
     }

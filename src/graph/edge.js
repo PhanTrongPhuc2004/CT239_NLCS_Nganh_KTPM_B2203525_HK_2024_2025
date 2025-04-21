@@ -5,6 +5,11 @@ class Edge {
         this.w = w || 0; // Trọng số (có thể âm)
     }
 
+    // Cập nhật trọng số của cạnh
+    setWeight(w) { 
+        this.w = w;
+    }
+
     // Phương thức kiểm tra xem cạnh có chứa đỉnh với ID cho trước không
     hasVertex(vertexId) {
         return this.u === vertexId || this.v === vertexId;
