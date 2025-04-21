@@ -41,7 +41,7 @@ const createWindow = () => {
     );
 
     // mở devTools nếu cần thiết
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 };
 
 // Gọi hàm createWindow khi ứng dụng đã sẵn sàng

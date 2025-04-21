@@ -368,6 +368,7 @@ function attachNodeAndEdgeEvents() {
             const label = generateVertexId(id - 1);
             graph.addVertex(id, label, x, y);
             visualizer.updateGraph(graph);
+            attachNodeAndEdgeEvents();
             updateNodeDropdowns();
             showMessage(`Đỉnh ${label} đã được thêm tại (${x.toFixed(0)}, ${y.toFixed(0)}).`);
         }
@@ -401,6 +402,7 @@ function attachNodeAndEdgeEvents() {
                             let labelV = graph.getVertexLabel(v);
                             visualizer.updateGraph(graph);
                             showMessage(`Cạnh từ ${labelU} đến ${labelV} với trọng số ${weight === 0 ? 'không trọng số' : weight} đã được thêm.`);
+                            attachNodeAndEdgeEvents();
                         }
                     }
                     selectedNodesForEdge = [];
@@ -408,6 +410,7 @@ function attachNodeAndEdgeEvents() {
             } else if (mode === 'delete') {
                 graph.removeVertex(d.id);
                 visualizer.updateGraph(graph);
+                attachNodeAndEdgeEvents();
                 updateNodeDropdowns();
                 showMessage(`Đỉnh ${d.label} đã được xóa.`);
             } else if (mode === 'edit-edge') {
@@ -420,6 +423,7 @@ function attachNodeAndEdgeEvents() {
                     const vertex = graph.getVertexById(d.id);
                     vertex.setLabel(newLabel);
                     visualizer.updateGraph(graph);
+                    attachNodeAndEdgeEvents();
                     updateNodeDropdowns();
                     showMessage(`Nhãn của đỉnh ${d.label} đã được đổi thành ${newLabel}.`);
                 }
@@ -436,6 +440,7 @@ function attachNodeAndEdgeEvents() {
                 graph.removeEdge(d.source, d.target);
                 visualizer.updateGraph(graph);
                 showMessage(`Cạnh từ ${graph.getVertexLabel(d.source)} đến ${graph.getVertexLabel(d.target)} đã được xóa.`);
+                attachNodeAndEdgeEvents();
             } else if (mode === 'edit-edge') {
                 const currentWeight = graph.getEdgeWeight(d.source, d.target);
                 const newWeight = await showWeightModal(currentWeight);
@@ -447,6 +452,7 @@ function attachNodeAndEdgeEvents() {
                     graph.setEdgeWeight(d.source, d.target, newWeight);
                     visualizer.updateGraph(graph);
                     showMessage(`Cạnh từ ${graph.getVertexLabel(d.source)} đến ${graph.getVertexLabel(d.target)} đã được cập nhật trọng số thành ${newWeight === 0 ? 'không trọng số' : newWeight}.`);
+                    attachNodeAndEdgeEvents();
                 }
             }
         });
@@ -468,6 +474,7 @@ function attachNodeAndEdgeEvents() {
                 graph.setVertexPosition(id, newX, newY);
             });
             visualizer.updateGraph(graph);
+            attachNodeAndEdgeEvents();
         })
         .on('end', function () {
             if (modeSelect.value !== 'move') return;
@@ -500,6 +507,7 @@ modeSelect.addEventListener('change', (event) => {
             showMessage('Chọn một chế độ thao tác để bắt đầu.');
             break;
     }
+    attachNodeAndEdgeEvents(); // Gắn lại sự kiện để đảm bảo tương tác đúng với chế độ hiện tại
 });
 
 // Chọn thuật toán
