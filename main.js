@@ -17,6 +17,7 @@ const createWindow = () => {
         width: 1100,
         height: 800,
         center: true,
+        icon: path.join(__dirname, '/src/assets/icon.ico'), // Đường dẫn đến icon
         webPreferences: {
             // Bật nodeIntegration để sử dụng các module của Node.js trong renderer process
             nodeIntegration: true, 

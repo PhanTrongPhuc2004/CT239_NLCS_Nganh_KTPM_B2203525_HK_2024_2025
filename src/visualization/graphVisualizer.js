@@ -1,16 +1,19 @@
 const d3 = require('d3');
 
-// Đồ thị trực quan hóa
+// Lớp GraphVisualizer chịu trách nhiệm trực quan hóa đồ thị trên canvas sử dụng D3.js
 class GraphVisualizer {
-    constructor(svgId, width, height, graph) {
-        this.width = width;
-        this.height = height;
-        this.graph = graph; // Lưu tham chiếu đến graph để cập nhật vị trí
+    // Khởi tạo GraphVisualizer
+    // @param {string} svgId - ID của phần tử SVG trong DOM
+    // @param {number} width - Chiều rộng canvas
+    // @param {number} height - Chiều cao canvas
+    constructor(svgId, width, height) {
+        this.width = width; // Chiều rộng canvas
+        this.height = height; // Chiều cao canvas
+        // Tạo SVG chính
         this.svg = d3.select(svgId).append("svg")
             .attr('width', '100%')
             .attr('height', '100%')
             .attr('viewBox', `0 0 ${width} ${height}`);
-
         // Nhóm cho các cạnh
         this.edges = this.svg.append('g').attr('class', 'edges');
         // Nhóm cho các trọng số cạnh
@@ -21,27 +24,28 @@ class GraphVisualizer {
         this.labels = this.svg.append('g').attr('class', 'labels');
     }
 
-    // Cập nhật và vẽ đồ thị
+    // Cập nhật và vẽ lại đồ thị
+    // @param {Graph} graph - Đối tượng đồ thị cần trực quan hóa
     updateGraph(graph) {
         this.graph = graph;
 
         // Xóa toàn bộ nội dung SVG trước khi vẽ lại
-        this.nodes.selectAll('*').remove();  // Xóa tất cả đỉnh
-        this.edges.selectAll('*').remove(); // Xóa tất cả cạnh
-        this.weights.selectAll('*').remove(); // Xóa tất cả trọng số
-        this.labels.selectAll('*').remove(); // Xóa tất cả nhãn
+        this.nodes.selectAll('*').remove();
+        this.edges.selectAll('*').remove();
+        this.weights.selectAll('*').remove();
+        this.labels.selectAll('*').remove();
 
         const vertices = graph.getVertices();
         const edges = graph.getEdges();
 
-        // Dữ liệu cho đỉnh
+        // Chuẩn bị dữ liệu cho đỉnh
         const nodeData = vertices.map(id => {
             const pos = graph.getVertexPosition(id);
             const label = graph.getVertexLabel(id);
             return { id, label, x: pos.x, y: pos.y };
         });
 
-        // Dữ liệu cho cạnh
+        // Chuẩn bị dữ liệu cho cạnh
         const edgeData = edges.map(edge => {
             const sourcePos = graph.getVertexPosition(edge.u);
             const targetPos = graph.getVertexPosition(edge.v);
@@ -56,10 +60,9 @@ class GraphVisualizer {
             };
         });
 
-        // Vẽ cạnh
+        // Vẽ các cạnh
         const edgeSelection = this.edges.selectAll('.edge')
             .data(edgeData, d => `${d.source}-${d.target}`);
-
         edgeSelection.enter()
             .append('line')
             .attr('class', 'edge')
@@ -70,13 +73,11 @@ class GraphVisualizer {
             .attr('y1', d => d.y1)
             .attr('x2', d => d.x2)
             .attr('y2', d => d.y2);
-
         edgeSelection.exit().remove();
 
         // Vẽ trọng số cạnh
         const weightSelection = this.weights.selectAll('.edge-weight')
             .data(edgeData, d => `${d.source}-${d.target}`);
-
         weightSelection.enter()
             .append('text')
             .attr('class', 'edge-weight')
@@ -86,14 +87,12 @@ class GraphVisualizer {
             .merge(weightSelection)
             .attr('x', d => (d.x1 + d.x2) / 2)
             .attr('y', d => (d.y1 + d.y2) / 2 - 5)
-            .text(d => d.weight === 0 ? '' : d.weight); // Không hiển thị trọng số bằng 0
-
+            .text(d => d.weight === 0 ? '' : d.weight);
         weightSelection.exit().remove();
 
-        // Vẽ đỉnh
+        // Vẽ các đỉnh
         const nodeSelection = this.nodes.selectAll('.node')
             .data(nodeData, d => d.id);
-
         nodeSelection.enter()
             .append('circle')
             .attr('class', 'node')
@@ -103,20 +102,32 @@ class GraphVisualizer {
             .attr('stroke-width', 3)
             .call(d3.drag()
                 .on('drag', (event, d) => {
+                    // Giới hạn vị trí đỉnh trong canvas
                     d.x = Math.max(20, Math.min(this.width - 20, event.x));
                     d.y = Math.max(20, Math.min(this.height - 20, event.y));
                     this.graph.setVertexPosition(d.id, d.x, d.y);
-                    d3.select(this).attr('cx', d.x).attr('cy', d.y); // Sử dụng `this` thay vì `event.subject`
+
+                    // Cập nhật vị trí đỉnh
+                    this.nodes.selectAll('.node')
+                        .filter(node => node.id === d.id)
+                        .attr('cx', d.x)
+                        .attr('cy', d.y);
+
+                    // Cập nhật vị trí nhãn
                     this.labels.selectAll('.label')
                         .filter(label => label.id === d.id)
                         .attr('x', d.x)
                         .attr('y', d.y);
+
+                    // Cập nhật vị trí các cạnh liên quan
                     this.edges.selectAll('.edge')
                         .filter(edge => edge.source === d.id || edge.target === d.id)
                         .attr('x1', edge => edge.source === d.id ? d.x : this.graph.getVertexPosition(edge.source).x)
                         .attr('y1', edge => edge.source === d.id ? d.y : this.graph.getVertexPosition(edge.source).y)
                         .attr('x2', edge => edge.target === d.id ? d.x : this.graph.getVertexPosition(edge.target).x)
                         .attr('y2', edge => edge.target === d.id ? d.y : this.graph.getVertexPosition(edge.target).y);
+
+                    // Cập nhật vị trí trọng số cạnh
                     this.weights.selectAll('.edge-weight')
                         .filter(weight => weight.source === d.id || weight.target === d.id)
                         .attr('x', weight => (this.graph.getVertexPosition(weight.source).x + this.graph.getVertexPosition(weight.target).x) / 2)
@@ -126,12 +137,9 @@ class GraphVisualizer {
             .attr('cx', d => d.x)
             .attr('cy', d => d.y);
 
-        nodeSelection.exit().remove();
-
-        // Vẽ nhãn
+        // Vẽ nhãn đỉnh
         const labelSelection = this.labels.selectAll('.label')
             .data(nodeData, d => d.id);
-
         labelSelection.enter()
             .append('text')
             .attr('class', 'label')
@@ -141,13 +149,13 @@ class GraphVisualizer {
             .attr('x', d => d.x)
             .attr('y', d => d.y)
             .text(d => d.label);
-
         labelSelection.exit().remove();
 
         return { nodeData, edgeData };
     }
 
     // Làm nổi bật đường đi ngắn nhất
+    // @param {number[]} path - Mảng các ID đỉnh trên đường đi
     highlightPath(path) {
         this.clearHighlights();
 
@@ -176,7 +184,7 @@ class GraphVisualizer {
             .classed('highlighted-label', true);
     }
 
-    // Xóa các highlight
+    // Xóa các highlight trên đồ thị
     clearHighlights() {
         this.edges.selectAll('.edge').classed('path-edge', false);
         this.nodes.selectAll('.node').classed('highlighted', false);

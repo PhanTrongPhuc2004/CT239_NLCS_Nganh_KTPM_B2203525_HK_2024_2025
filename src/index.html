@@ -2,23 +2,35 @@
 <html lang="en">
 
 <head>
+    <!-- Thiết lập mã hóa ký tự và viewport cho giao diện responsive -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Chính sách bảo mật nội dung để tăng cường an toàn -->
     <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none';">
+    <!-- Tiêu đề trang web -->
     <title>Graph Algorithms Shortest Path</title>
-    <link rel="icon" href="assets/icon.jpg" type="image/x-icon">
+    <!-- Icon hiển thị trên thanh tiêu đề trình duyệt -->
+    <link rel="icon" href="assets/icon.ico" type="image/x-icon">
+    <!-- Liên kết đến file CSS chính -->
     <link rel="stylesheet" href="style.css">
+    <!-- Liên kết đến thư viện Font Awesome để sử dụng icon -->
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
 </head>
 
 <body>
+    <!-- Phần tiêu đề của trang web -->
     <header>
-        <h2>ỨNG DỤNG VẼ VÀ XỬ LÝ ĐỒ THỊ ÁP DỤNG GIẢI THUẬT TÌM ĐƯỜNG ĐI NGẮN NHẤT</h2>
+        <h2>ỨNG DỤNG VẼ VÀ XỬ LÝ ĐỒ THỊ VÔ HƯỚNG ÁP DỤNG GIẢI THUẬT TÌM ĐƯỜNG ĐI NGẮN NHẤT</h2>
     </header>
+
+    <!-- Phần nội dung chính, bao gồm sidebar và khu vực hiển thị đồ thị -->
     <div class="container">
+        <!-- Thanh sidebar chứa các công cụ điều khiển -->
         <div class="sidebar">
+            <!-- Nhóm chọn chế độ thao tác với đồ thị -->
             <div class="input-group">
-                <label>Chế Độ:</label>
+                <label><i class="fa-solid fa-gear"></i> Chế Độ:</label>
                 <select id="mode-select">
                     <option value="default" selected hidden>Chọn chế độ</option>
                     <option value="add-node">Thêm đỉnh</option>
@@ -28,8 +40,10 @@
                     <option value="move">Di chuyển</option>
                 </select>
             </div>
+
+            <!-- Nhóm chọn thuật toán tìm đường đi ngắn nhất -->
             <div class="input-group">
-                <label>Thuật Toán:</label>
+                <label><i class="fa-solid fa-calculator"></i> Thuật Toán:</label>
                 <select id="algorithm-select">
                     <option value="default" selected hidden>Chọn thuật toán</option>
                     <option value="bfs">BFS</option>
@@ -39,41 +53,85 @@
                     <option value="a-star">A* Star</option>
                 </select>
             </div>
+
+            <!-- Nhóm chọn đỉnh đầu cho thuật toán -->
             <div class="input-group">
-                <label>Đỉnh Đầu:</label>
+                <label><i class="fa-solid fa-genderless"></i> Đỉnh Đầu:</label>
                 <select id="start-node-select">
                     <option value="default" selected hidden>Chọn đỉnh đầu</option>
                 </select>
             </div>
+
+            <!-- Nhóm chọn đỉnh cuối cho thuật toán -->
             <div class="input-group">
-                <label>Đỉnh Cuối:</label>
+                <label><i class="fa-solid fa-genderless"></i> Đỉnh Cuối:</label>
                 <select id="end-node-select">
                     <option value="default" selected hidden>Chọn đỉnh cuối</option>
                 </select>
             </div>
-            <button id="run-algorithm" class="btn btn-success"><b>Chạy Thuật Toán</b></button>
-            <button id="check-component" class="btn btn-primary"><b>Bộ Phận Liên Thông</b></button>
-            <button id="random-graph" class="btn btn-warning"><b>Đồ Thị Ngẫu Nhiên</b></button>
-            <button id="clear-graph" class="btn btn-danger"><b>Xóa Đồ Thị</b></button>
+
+            <!-- Nút chạy thuật toán đã chọn -->
+            <button id="run-algorithm" class="btn btn-success">
+                <i class="fas fa-play"></i> <b>Chạy Thuật Toán</b>
+            </button>
+
+            <!-- Nút kiểm tra các thành phần liên thông của đồ thị -->
+            <button id="check-component" class="btn btn-primary">
+                <i class="fas fa-link"></i> <b>Bộ Phận Liên Thông</b>
+            </button>
+
+            <!-- Nút tạo đồ thị ngẫu nhiên -->
+            <button id="random-graph" class="btn btn-warning">
+                <i class="fas fa-random"></i> <b>Đồ Thị Ngẫu Nhiên</b>
+            </button>
+
+            <!-- Nút xóa toàn bộ đồ thị -->
+            <button id="clear-graph" class="btn btn-danger">
+                <i class="fas fa-trash"></i> <b>Xóa Đồ Thị</b>
+            </button>
+
+            <!-- Nhóm chọn các tùy chọn bổ sung -->
             <div class="input-group" style="margin-top: 16px;">
-                <label>Tùy Chọn:</label>
-                <select id="mode-select">
+                <label><i class="fa-solid fa-bars"></i> Tùy Chọn:</label>
+                <select id="options-select">
                     <option value="default" selected hidden>Chọn tùy chọn</option>
+                    <option value="input-matrix">Nhập liệu đồ thị</option>
+                    <option value="view-result-matrix">Xem kết quả thuật toán</option>
+                    <option value="dataStructure">Xem thông tin đồ thị</option>
+                    <option value="auto-layout">Sắp xếp lại đồ thị</option>
                     <option value="export">Xuất file</option>
                     <option value="import">Nhập file</option>
                     <option value="image">Xuất ảnh</option>
-                    <option value="dataStructure">Xem thông tin đồ thị</option>
                 </select>
             </div>
+
+            <!-- Nhóm quản lý đồ thị (lưu, xóa đồ thị) -->
+            <div class="input-group">
+                <label><i class="fa-solid fa-list-ul"></i> Quản Lý Đồ Thị:</label>
+                <select id="graph-list">
+                    <option value="default" selected hidden>Chọn đồ thị</option>
+                </select>
+                <button id="save-graph" class="btn btn-info">
+                    <i class="fas fa-save"></i> <b>Lưu Đồ Thị</b>
+                </button>
+                <button id="delete-graph" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> <b>Xóa Đồ Thị Đã Lưu</b>
+                </button>
+            </div>
         </div>
+
+        <!-- Khu vực chính hiển thị hướng dẫn, kết quả và canvas -->
         <div class="main">
+            <!-- Phần đầu của khu vực chính, chứa thông báo và kết quả -->
             <div class="main-header">
+                <!-- Hiển thị hướng dẫn thao tác -->
                 <div class="message">
                     <h3>Hướng dẫn:</h3>
                     <div id="message-content">
                         <p id="contentMessage"></p>
                     </div>
                 </div>
+                <!-- Hiển thị kết quả của thuật toán -->
                 <div class="results">
                     <h3>Kết Quả:</h3>
                     <div id="results-content">
@@ -83,12 +141,16 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Khu vực vẽ đồ thị -->
             <div class="canvas-container">
                 <div id="graph-canvas"></div>
             </div>
         </div>
     </div>
-    <!-- Modal để nhập/cập nhật trọng số -->
+
+    <!-- Các modal để tương tác với người dùng -->
+    <!-- Modal nhập/cập nhật trọng số cạnh -->
     <div id="weightModal" class="modal">
         <div class="modal-content">
             <h3>Nhập trọng số cho cạnh</h3>
@@ -100,7 +162,8 @@
             </div>
         </div>
     </div>
-    <!-- Modal để chỉnh sửa nhãn đỉnh -->
+
+    <!-- Modal chỉnh sửa nhãn đỉnh -->
     <div id="labelModal" class="modal">
         <div class="modal-content">
             <h3>Chỉnh sửa nhãn đỉnh</h3>
@@ -111,6 +174,49 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal nhập ma trận trọng số -->
+    <div id="matrixInputModal" class="modal">
+        <div class="modal-content">
+            <h3>Nhập ma trận trọng số</h3>
+            <p>Nhập ma trận trọng số (mỗi dòng là một hàng, các giá trị cách nhau bằng dấu cách). Sử dụng 'INF' cho
+                không có cạnh.</p>
+            <textarea id="matrixInput" rows="10" cols="50" placeholder="VD: 
+0 5 INF INF
+5 0 9 INF
+INF 9 0 3
+INF INF 3 0"></textarea>
+            <div>
+                <button id="matrixOk">OK</button>
+                <button id="matrixCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal hiển thị ma trận kết quả -->
+    <div id="resultMatrixModal" class="modal">
+        <div class="modal-content">
+            <h3>Ma trận khoảng cách</h3>
+            <pre id="resultMatrixOutput"></pre>
+            <div>
+                <button id="resultMatrixOk">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal nhập tên đồ thị khi lưu -->
+    <div id="saveGraphModal" class="modal">
+        <div class="modal-content">
+            <h3>Lưu Đồ Thị</h3>
+            <input type="text" id="graphNameInput" placeholder="Nhập tên đồ thị">
+            <div>
+                <button id="saveGraphOk">OK</button>
+                <button id="saveGraphCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liên kết đến file JavaScript chính -->
     <script type="module" src="renderer.js"></script>
 </body>
 

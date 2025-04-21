@@ -1,14 +1,18 @@
+// Lớp Stack triển khai cấu trúc dữ liệu ngăn xếp (LIFO - Last In, First Out)
 class Stack {
+    // Khởi tạo ngăn xếp
     constructor() {
-        this.items = [];
+        this.items = []; // Mảng lưu các phần tử
     }
 
-    // Thêm một phần tử vào đỉnh stack
+    // Thêm phần tử vào đỉnh ngăn xếp
+    // @param {*} element - Phần tử cần thêm
     push(element) {
         this.items.push(element);
     }
 
-    // Lấy và xóa phần tử ở đỉnh stack
+    // Lấy và xóa phần tử ở đỉnh ngăn xếp
+    // @returns {*} - Phần tử ở đỉnh hoặc null nếu rỗng
     pop() {
         if (this.isEmpty()) {
             return null;
@@ -16,7 +20,8 @@ class Stack {
         return this.items.pop();
     }
 
-    // Xem phần tử ở đỉnh stack mà không xóa
+    // Xem phần tử ở đỉnh ngăn xếp mà không xóa
+    // @returns {*} - Phần tử ở đỉnh hoặc null nếu rỗng
     peek() {
         if (this.isEmpty()) {
             return null;
@@ -24,7 +29,8 @@ class Stack {
         return this.items[this.items.length - 1];
     }
 
-    // Kiểm tra stack có rỗng không
+    // Kiểm tra ngăn xếp có rỗng không
+    // @returns {boolean} - True nếu ngăn xếp rỗng
     isEmpty() {
         return this.items.length === 0;
     }

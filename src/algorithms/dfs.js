@@ -1,31 +1,37 @@
 const Stack = require('../dataStructures/stack.js');
 
-function dfs(graph) {
-    const vertices = graph.getVertices();
-    const visited = {};
-    const stack = new Stack();
-    let count = 0; // Số thành phần liên thông
-    const components = []; // Danh sách các đỉnh trong mỗi thành phần liên thông
+// Thuật toán DFS (Depth-First Search) tìm các thành phần liên thông trong đồ thị
 
-    // Khởi tạo visited
+// Tìm các thành phần liên thông sử dụng thuật toán DFS
+// @param {Graph} graph - Đối tượng đồ thị vô hướng
+// @returns {Object} - Đối tượng chứa count (số thành phần liên thông) và components (danh sách các đỉnh trong mỗi thành phần)
+function dfs(graph) {
+    const vertices = graph.getVertices(); // Danh sách các đỉnh
+    const visited = {}; // Trạng thái đã thăm của các đỉnh
+    const stack = new Stack(); // Ngăn xếp để duyệt DFS
+    let count = 0; // Số thành phần liên thông
+    const components = []; // Danh sách các thành phần liên thông
+
+    // Khởi tạo trạng thái chưa thăm
     vertices.forEach(vertex => {
         visited[vertex] = false;
     });
 
-    // Duyệt từng đỉnh
+    // Duyệt từng đỉnh chưa thăm
     vertices.forEach(vertex => {
         if (!visited[vertex]) {
             count++;
-            const component = []; // Các đỉnh trong thành phần liên thông hiện tại
+            const component = []; // Danh sách đỉnh trong thành phần liên thông hiện tại
             stack.push(vertex);
 
+            // Duyệt DFS sử dụng ngăn xếp
             while (!stack.isEmpty()) {
                 const v = stack.pop();
-                if (!visited[v]) { // Chỉ xử lý nếu chưa thăm
+                if (!visited[v]) {
                     visited[v] = true;
                     component.push(v);
 
-                    // Lấy các đỉnh kề
+                    // Thêm các đỉnh kề chưa thăm vào ngăn xếp
                     const neighbors = graph.getNeighbors(v);
                     neighbors.forEach(z => {
                         if (!visited[z]) {
@@ -34,9 +40,9 @@ function dfs(graph) {
                     });
                 }
             }
-            //sắp xếp lại thành phần liên thông
-            component.sort((a, b) => a - b); // Sắp xếp theo ID
-            // Thêm vào danh sách thành phần liên thông
+
+            // Sắp xếp thành phần liên thông theo ID
+            component.sort((a, b) => a - b);
             components.push(component);
         }
     });
