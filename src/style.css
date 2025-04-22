@@ -335,12 +335,14 @@ select {
     background-color: rgba(0, 0, 0, 0.5);
     /* Lớp z-index cao để đè lên nội dung khác */
     z-index: 1000;
+    /* Thêm overflow để hỗ trợ cuộn nếu nội dung modal vượt quá màn hình */
+    overflow: auto;
 }
 
 .modal-content {
     /* Màu nền và căn giữa */
     background-color: white;
-    margin: 15% auto;
+    margin: 5% auto;
     /* Khoảng cách bên trong và viền */
     padding: 20px;
     border: 1px solid #888;
@@ -350,6 +352,29 @@ select {
     /* Bo góc và căn giữa chữ */
     border-radius: 5px;
     text-align: center;
+    /* Giới hạn chiều cao tối đa và cho phép cuộn nội dung */
+    max-height: 80vh;
+    /* 80% chiều cao màn hình */
+    overflow-x: auto;
+    /* Thêm thanh cuộn ngang */
+    overflow-y: auto;
+    /* Thêm thanh cuộn dọc */
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content pre {
+    background-color: #f8f8f8;
+    padding: 10px;
+    font-family: monospace;
+    white-space: pre;
+    /* Ngăn xuống dòng, giữ nguyên định dạng */
+    /* hoặc dùng white-space: nowrap; nếu không muốn bất kỳ xuống dòng nào */
+    text-align: left;
+    /* Căn trái để ma trận dễ đọc */
+    flex: 1;
+    min-width: 100%;
+    /* Đảm bảo nội dung không bị ép nhỏ hơn modal */
 }
 
 .modal-content h3 {
