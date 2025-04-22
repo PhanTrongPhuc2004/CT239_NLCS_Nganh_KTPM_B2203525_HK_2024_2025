@@ -36,10 +36,10 @@
 
 - **Giao diện nhập đồ thị trực quan:**
 
-- Thêm đỉnh bằng cách nhấp chuột trái vào canvas.
-- Thêm cạnh bằng cách chọn hai đỉnh (hỗ trợ nhập trọng số, bao gồm số âm).
-- Di chuyển đỉnh bằng cách kéo thả, chỉnh sửa nhãn đỉnh hoặc trọng số cạnh.
-- Xóa đỉnh/cạnh bằng cách nhấp chuột trong chế độ xóa.
+  - Thêm đỉnh bằng cách nhấp chuột trái vào canvas.
+  - Thêm cạnh bằng cách chọn hai đỉnh (hỗ trợ nhập trọng số, bao gồm số âm).
+  - Di chuyển đỉnh bằng cách kéo thả, chỉnh sửa nhãn đỉnh hoặc trọng số cạnh.
+  - Xóa đỉnh/cạnh bằng cách nhấp chuột trong chế độ xóa.
 
 - **Kiểm tra miền liên thông:**
 
