@@ -1,7 +1,6 @@
 # Ứng dụng vẽ và xử lý đồ thị vô hướng áp dụng giải thuật tìm đường đi ngắn nhất
 
-Ứng dụng này được xây dựng với mục tiêu tạo ra một công cụ học tập trực quan, cho phép người dùng tương tác với đồ thị vô hướng và kiểm tra, minh họa từng bước của các thuật toán tìm đường đi ngắn nhất cũng như kiểm tra miền liên thông.  
-Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử dụng D3.js cho việc trực quan hóa và Electron cùng Electron Forge để đóng gói ứng dụng.
+Ứng dụng này là một công cụ học tập trực quan, cho phép người dùng tương tác với đồ thị vô hướng, minh họa từng bước các thuật toán tìm đường đi ngắn nhất và kiểm tra miền liên thông. Dự án được phát triển bằng HTML, CSS, JavaScript, sử dụng D3.js để trực quan hóa đồ thị và Electron cùng Electron Forge để đóng gói thành ứng dụng desktop.
 
 ---
 
@@ -22,14 +21,14 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
 
 ## Giới thiệu
 
-Ứng dụng cho phép:
+Ứng dụng cung cấp một giao diện đồ họa trực quan để:
 
-- Nhập và chỉnh sửa đồ thị vô hướng thông qua giao diện đồ họa trực quan.
-- Tạo, di chuyển, chỉnh sửa và xóa các đỉnh và cạnh của đồ thị.
-- Nhập trọng số cho các cạnh, bao gồm cả các giá trị âm.
-- Kiểm tra miền liên thông của đồ thị sử dụng thuật toán DFS hoặc BFS.
-- Thực hiện và minh họa chi tiết quá trình của các thuật toán tìm đường đi ngắn nhất như BFS, Dijkstra, Bellman-Ford, Floyd-Warshall và A\* (sử dụng hàm heuristic Euclidean dựa trên tọa độ D3.js).
-- Lưu và mở lại đồ thị dưới dạng file JSON để dễ dàng tái sử dụng.
+- Tạo, chỉnh sửa, và trực quan hóa đồ thị vô hướng.
+- Thêm, xóa, di chuyển đỉnh/cạnh, và nhập trọng số (bao gồm số âm).
+- Kiểm tra và hiển thị các miền liên thông của đồ thị bằng thuật toán DFS.
+- Thực hiện và minh họa các thuật toán tìm đường đi ngắn nhất: BFS, Dijkstra, Bellman-Ford, Floyd-Warshall, và A*.
+- Lưu trữ đồ thị dưới dạng file JSON hoặc trong localStorage, nhập/xuất đồ thị, và xuất đồ thị dưới dạng ảnh SVG.
+- Tạo đồ thị ngẫu nhiên và tự động sắp xếp bố cục đồ thị.
 
 ---
 
@@ -37,15 +36,14 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
 
 - **Giao diện nhập đồ thị trực quan:**
 
-  - Thêm đỉnh bằng cách nhấp chuột trái vào vùng canvas.
-  - Thêm cạnh bằng cách kéo chuột từ đỉnh này đến đỉnh khác.
-  - Cho phép nhập trọng số cạnh (bao gồm cả số âm).
-  - Di chuyển, chỉnh sửa vị trí đỉnh (kéo thả) và xóa các đỉnh, cạnh qua menu ngữ cảnh hoặc thanh công cụ.
+- Thêm đỉnh bằng cách nhấp chuột trái vào canvas.
+- Thêm cạnh bằng cách chọn hai đỉnh (hỗ trợ nhập trọng số, bao gồm số âm).
+- Di chuyển đỉnh bằng cách kéo thả, chỉnh sửa nhãn đỉnh hoặc trọng số cạnh.
+- Xóa đỉnh/cạnh bằng cách nhấp chuột trong chế độ xóa.
 
 - **Kiểm tra miền liên thông:**
 
-  - Xác định và liệt kê số miền liên thông cùng danh sách các đỉnh thuộc mỗi miền.
-  - Tô màu các miền khác nhau để phân biệt.
+  - Sử dụng thuật toán DFS để xác định số miền liên thông và liệt kê các đỉnh thuộc mỗi miền.
 
 - **Triển khai các giải thuật tìm đường đi ngắn nhất:**
 
@@ -57,13 +55,20 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
   - **A\*:** Tìm đường đi ngắn nhất giữa hai đỉnh, kết hợp chi phí thực tế và hàm heuristic (Euclidean).
 
 - **Lưu trữ và quản lý đồ thị:**
+  - Lưu đồ thị vào localStorage hoặc xuất ra file JSON.
+  - Nhập đồ thị từ file JSON hoặc localStorage.
+  - Xuất đồ thị dưới dạng ảnh SVG.
+  - Xóa đồ thị đã lưu hoặc tạo đồ thị mới.
 
-  - Xuất đồ thị ra file JSON.
-  - Nạp (mở) đồ thị từ file đã lưu.
-  - Tạo đồ thị mới từ đầu.
+- **Lưu trữ và quản lý đồ thị:**
+  - Tạo đồ thị ngẫu nhiên với số đỉnh và cạnh ngẫu nhiên.
+  - Nhập đồ thị từ ma trận trọng số.
+  - Xem ma trận khoảng cách hoặc thông tin đồ thị (đỉnh, cạnh).
+  - Tự động sắp xếp bố cục đồ thị theo lưới.
 
 - **Minh họa quá trình thuật toán:**
-  - Hiển thị từng bước xử lý của thuật toán (thứ tự thăm, cập nhật khoảng cách, đỉnh đã thăm) và làm nổi bật đường đi ngắn nhất trên giao diện.
+  - Hiển thị từng bước thực hiện thuật toán (khoảng cách, đường đi, đỉnh đã thăm).
+  - Làm nổi bật đường đi ngắn nhất trên canvas.
 
 ---
 
@@ -96,10 +101,9 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
 │   │   └── matrix.js        // Ma trận cho Floyd-Warshall.
 │   ├── utils/               // Các hàm tiện ích.
 │   │   ├── fileUtils.js     // Lưu mở file JSON.
-│   │   └── otherUtils.js    // Các hàm tiện ích khác.
-│   └── visualization/       // Mã D3.js để vẽ đồ thị.
-│       └── graphVisualizer.js // Quản lý việc vẽ, cập nhật đồ thị và hiển thị bước thuật toán.
-├── assets/                  // Tài nguyên như hình ảnh, biểu tượng…
+│   ├── visualization/       // Mã D3.js để vẽ đồ thị.
+│   │   └── graphVisualizer.js // Quản lý việc vẽ, cập nhật đồ thị và hiển thị bước thuật toán.
+|   ├── assets/              // Tài nguyên như hình ảnh, biểu tượng…
 ├── .gitignore               // Cấu hình Git.
 └── README.md                // (File này) Tài liệu hướng dẫn và giới thiệu dự án.
 ```
@@ -110,8 +114,8 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
 
 - **Danh sách đỉnh:** Mỗi đỉnh chứa thông tin:
 
-  - `id`: Số thứ tự hoặc mã định danh của đỉnh.
-  - `label`: Nhãn hiển thị cho đỉnh.
+  - `id`: Mã định danh (số nguyên).
+  - `label`: Nhãn hiển thị (mặc định là chữ cái: A, B, ..., AA, AB, ...).
   - `x`, `y`: Tọa độ hiển thị trên canvas (sử dụng bởi D3.js).
 
 - **Danh sách cạnh:** Mỗi cạnh được lưu dưới dạng bộ ba `(u, v, w)`:
@@ -128,7 +132,9 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
   - **Matrix:** Ma trận khoảng cách cho thuật toán Floyd-Warshall.
   - **Mảng:** Để lưu trạng thái của các đỉnh (đã thăm, khoảng cách, đỉnh trước).
 
-- **Lưu trữ file:** Đồ thị được lưu dưới dạng file JSON bao gồm thông tin về đỉnh, cạnh và trọng số.
+- **Lưu trữ file:** 
+  - **localStorage:** Lưu danh sách đồ thị với tên và dữ liệu JSON.
+  - **File JSON:** Lưu thông tin đỉnh, cạnh, và trọng số.
 
 ---
 
@@ -200,7 +206,7 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
    cd CT239_NLCS_Nganh_KTPM_B2203525_HK_2024_2025
    ```
 
-3. **Cài đặt dependencies:**
+3. **Cài đặt các các thư viện phụ thuộc:**
 
    ```bash
    npm install
@@ -218,7 +224,7 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
 5. **Kết xuất ứng dụng desktop:**
    Dự án sử dụng Electron và Electron Forge, vì vậy chạy:
    ```bash
-   npm make
+   npm run make
    ```
    Lệnh này sẽ khởi chạy Electron để kết xuất ra ứng dụng desktop.
 
@@ -228,37 +234,41 @@ Dự án được phát triển bằng công nghệ HTML, CSS, JavaScript, sử 
 
 - **Nhập đồ thị:**
 
-  - Nhấp chuột trái vào vùng canvas để tạo một đỉnh mới.
-  - Nhấp và kéo chuột từ một đỉnh đến đỉnh khác để tạo cạnh.
-  - Sau khi tạo cạnh, một hộp thoại hiện ra cho phép nhập trọng số (hỗ trợ số âm).
+  - Chọn chế độ “Thêm đỉnh” và nhấp chuột trái vào canvas để thêm đỉnh.
+  - Chọn chế độ “Thêm cạnh”, nhấp vào hai đỉnh để tạo cạnh, nhập trọng số qua modal.
+  - Nhập đồ thị từ ma trận trọng số qua tùy chọn “Nhập liệu đồ thị”.
 
-- **Chỉnh sửa:**
+- **Chỉnh sửa đồ thị:**
 
-  - Kéo thả các đỉnh để di chuyển.
-  - Nhấp đúp vào đỉnh để chỉnh sửa nhãn.
-  - Nhấp chuột phải vào đỉnh hoặc cạnh để xóa (hoặc sử dụng nút xóa trên thanh công cụ).
-
+  - Chọn chế độ “Di chuyển” để kéo thả đỉnh hoặc toàn bộ đồ thị.
+  - Chọn chế độ “Chỉnh sửa đỉnh/cạnh” để thay đổi nhãn đỉnh hoặc trọng số cạnh.
+  - Chọn chế độ “Xóa” để xóa đỉnh/cạnh bằng cách nhấp vào chúng.
 - **Kiểm tra miền liên thông:**
 
-  - Nhấn nút “Kiểm tra miền liên thông” trên thanh công cụ.
-  - Kết quả sẽ hiển thị số miền liên thông và danh sách các đỉnh thuộc mỗi miền, kèm theo tô màu khác nhau cho từng miền.
+  - Nhấn nút “Bộ phận liên thông” để xem số miền liên thông và danh sách đỉnh.
 
 - **Chạy thuật toán tìm đường đi ngắn nhất:**
 
-  - Chọn đỉnh nguồn và đỉnh đích bằng cách nhấp vào đồ thị hoặc nhập ID tương ứng.
-  - Chọn thuật toán cần thực hiện (BFS, Dijkstra, A\*, Bellman-Ford, Floyd-Warshall).
-  - Xem quá trình thực hiện qua bảng hoặc vùng hiển thị các bước (cập nhật hàng đợi, các đỉnh đã thăm, đường đi nổi bật…).
+  - Chọn thuật toán từ dropdown (BFS, Dijkstra, v.v.).
+  - Chọn đỉnh đầu và đỉnh cuối từ dropdown.
+  - Nhấn “Chạy thuật toán” để xem kết quả (đường đi, chi phí) và đường đi được highlight trên canvas.
 
-- **Lưu và mở đồ thị:**
-  - Nhấn nút “Lưu đồ thị” để xuất đồ thị thành file JSON.
-  - Nhấn nút “Mở đồ thị” để tải file JSON đã lưu và hiển thị lại đồ thị.
-  - Nhấn nút “Tạo mới” để xóa đồ thị hiện tại và bắt đầu lại.
+- **Quản lý đồ thị:**
+  - Nhấn “Lưu đồ thị” để lưu vào localStorage với tên tùy chỉnh.
+  - Nhấn “Xóa đồ thị đã lưu” để xóa đồ thị từ localStorage.
+  - Sử dụng tùy chọn “Xuất file” để lưu đồ thị thành JSON hoặc “Nhập file” để tải JSON.
+  - Xuất đồ thị thành ảnh SVG qua tùy chọn “Xuất ảnh”.
+
+- **Tính năng bổ sung:**
+  - Nhấn “Đồ thị ngẫu nhiên” để tạo đồ thị với số đỉnh/cạnh ngẫu nhiên.
+  - Chọn “Sắp xếp lại đồ thị” để tự động bố trí đỉnh theo lưới.
+  - Xem thông tin đồ thị (đỉnh, cạnh) hoặc ma trận khoảng cách qua các tùy chọn tương ứng.
 
 ---
 
 ## Yêu cầu hệ thống
 
-- Hệ điều hành: Windows, macOS hoặc Linux.
+- Hệ điều hành: Windows.
 - Node.js phiên bản 12 trở lên.
 - Dùng Electron (phiên bản Electron Forge được cấu hình sẵn trong `forge.config.js`).
 
